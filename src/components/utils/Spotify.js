@@ -1,6 +1,6 @@
 const _clientId = 'db18d43f7d0a4aa9902dc7c957a730fc';
 const _secret = '4b55a9e8ca284ce5b1446aa074eda3d0';
-const _redirectUri = 'http://localhost:3000/';
+const _redirectUri = window.location.href;
 const _scope = 'playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private';
 let _accessToken = localStorage.getItem('spotifyToken') ? localStorage.getItem('spotifyToken') : '';
 
