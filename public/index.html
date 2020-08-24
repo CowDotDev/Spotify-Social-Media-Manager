@@ -8,6 +8,18 @@
     <title>Spotify Social Media Manager</title>
   </head>
   <body>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : '309236943490408',
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v8.0'
+        });
+      };
+    </script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>

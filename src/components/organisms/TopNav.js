@@ -77,7 +77,6 @@ class TopNav extends React.Component {
                 <div className="flex-shrink-0">
                   <img className="h-8 w-8" src="https://tailwindui.com/img/logos/workflow-mark-on-dark.svg" alt="Workflow logo" />
                 </div>
-                <h1 className="text-lg md:text-2xl text-white font-bold pl-4">Spotify Social Media Manager</h1>
               </div>
               {/* Right Profile Section */}
               <div className="hidden md:block">

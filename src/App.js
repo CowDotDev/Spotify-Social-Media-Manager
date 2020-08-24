@@ -1,13 +1,13 @@
 import React from 'react';
 import { auth } from 'firebase';
 
-import database, { firebaseApp } from "./firebase";
+import { firebaseApp } from "./firebase";
 
-import Transition from './components/utils/Transitions';
 import Router from './components/utils/Router';
 import Loading from './components/pages/Loading';
 import TopNav from './components/organisms/TopNav';
 import Header from './components/molecules/Header';
+import Spotify from './components/utils/Spotify';
 
 class App extends React.Component {
   state = {
@@ -15,6 +15,15 @@ class App extends React.Component {
     user: {},
     posts: {}
   }
+
+  componentDidMount() {
+    auth().onAuthStateChanged(user => {
+      if (user) {
+        this.handleAuth({ user });
+      }
+      this.setState({ isLoading: false });
+    });
+  };
 
   isAuthed = () => {
     return typeof this.state.user.uid !== 'undefined';
@@ -40,6 +49,7 @@ class App extends React.Component {
   signOut = async (cb) => {
     this.setState({ isLoading: true });
     await auth().signOut();
+    Spotify.setAccessToken(null);
     this.setState({ user: {}, isLoading: false });
     if (cb && typeof cb === 'function') cb();
   }
@@ -55,18 +65,6 @@ class App extends React.Component {
     );
   }
 
-  componentDidMount() {
-    // Timeout just to give the loading page enough time to look like it is doing something
-    setTimeout(() => {
-      auth().onAuthStateChanged(user => {
-        if (user) {
-          this.handleAuth({ user });
-        }
-        this.setState({ isLoading: false });
-      });
-    }, 1000);
-  };
-
   render() {
     return (
       <div>
@@ -76,12 +74,12 @@ class App extends React.Component {
             user={this.state.user} 
             signOut={this.signOut}
           />
-          <Header isLoading={this.state.isLoading} />
+          <Header />
         </div>
 
         <main className="-mt-32">
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+            <div className="bg-white rounded-lg shadow overflow-hidden">
               { this.renderRouter() }
             </div>
           </div>
