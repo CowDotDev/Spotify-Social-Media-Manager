@@ -6,6 +6,7 @@ import UserType from '../../types/UserType';
 
 import Dashboard from '../pages/Dashboard';
 
+// Router ended up being overkill, oh well.
 class Router extends React.Component {
   render() {
     const setDashboard = () => (
@@ -19,7 +20,6 @@ class Router extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={setDashboard} />
-          {/* <Route component={NotFound} /> */}
         </Switch>
       </BrowserRouter>
     );

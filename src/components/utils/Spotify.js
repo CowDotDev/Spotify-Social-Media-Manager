@@ -27,10 +27,7 @@ const Spotify = {
         return _accessToken;
     },
     hasAccessToken() {
-        let token = this.getAccessToken();
-        if(token) return true;
-
-        // No access token, return false
+        if(this.getAccessToken()) return true;
         return false;
     },
     // Check if an auth code is on the URL

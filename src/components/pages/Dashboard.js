@@ -28,17 +28,10 @@ class Dashboard extends React.Component {
   componentDidMount() {
     if (this.props.isAuthed && this.state.isSpotifyProcessingLogin) {
       Spotify.requestAccessToken().then(tokenResponse => {
-        // Check to see if we were returned an access token
         if(tokenResponse.access_token) {
-          // We have an access_token! Set it to the session, then refresh the page to get the updated state with the correct URL
-          // Once again, not how'd like to handle the URL and State, but I don't want the code URL parameter anymore to prevent any issues.
           Spotify.setAccessToken(tokenResponse.access_token);
           window.history.replaceState({}, document.title, "/");
           this.setState({ isSpotifyAuthorized: true, isSpotifyProcessingLogin: false })
-        } else {
-          // We do not have an access_token! Return to the base route, as it will check localStorage if we are in a funky place.
-          // Otherwise, the user will be presented with the log-in screen
-          alert('k');
         }
       });
     }
