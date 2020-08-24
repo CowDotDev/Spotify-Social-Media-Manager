@@ -3,6 +3,7 @@ import { auth } from 'firebase';
 
 import database, { firebaseApp } from "./firebase";
 
+import Transition from './components/utils/Transitions';
 import Router from './components/utils/Router';
 import Loading from './components/pages/Loading';
 import TopNav from './components/organisms/TopNav';
@@ -36,17 +37,15 @@ class App extends React.Component {
     this.setState({ user });
     // TODO: Post login take them to the dashboard
   };
-  signOut = async () => {
+  signOut = async (cb) => {
     this.setState({ isLoading: true });
     await auth().signOut();
-    this.setState({ user: {} });
-    this.setState({ isLoading: false });
+    this.setState({ user: {}, isLoading: false });
+    if (cb && typeof cb === 'function') cb();
   }
 
   renderRouter = () => {
-    if (this.state.isLoading) {
-      return <Loading />
-    }
+    if (this.state.isLoading) return <Loading />;
     return (
       <Router
         isAuthed={this.isAuthed()}
@@ -57,6 +56,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    // Timeout just to give the loading page enough time to look like it is doing something
     setTimeout(() => {
       auth().onAuthStateChanged(user => {
         if (user) {
@@ -64,7 +64,7 @@ class App extends React.Component {
         }
         this.setState({ isLoading: false });
       });
-    }, 5000);
+    }, 1000);
   };
 
   render() {

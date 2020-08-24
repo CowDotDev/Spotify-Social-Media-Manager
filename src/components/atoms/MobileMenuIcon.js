@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const MobileMenuIcon = (props) => {
-  if (!props.isAuthed) return null;
   return (
     <div className="-mr-2 flex md:hidden">
       <button onClick={!props.isNavOpen ? props.openNav : props.closeNav} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white">
@@ -20,7 +19,6 @@ const MobileMenuIcon = (props) => {
 };
 
 MobileMenuIcon.propTypes = {
-  isAuthed: PropTypes.bool.isRequired,
   isNavOpen: PropTypes.bool.isRequired,
   openNav: PropTypes.func.isRequired,
   closeNav: PropTypes.func.isRequired

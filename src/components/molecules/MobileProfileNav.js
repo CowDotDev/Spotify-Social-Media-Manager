@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import UserType from '../../types/UserType';
 
 const MobileProfileNav = (props) => {
-  if (!props.isAuthed) return null;
   return (
     <div className="border-b border-gray-700 md:hidden">
       <div className="px-2 py-3">
@@ -18,7 +17,7 @@ const MobileProfileNav = (props) => {
           </div>
         </div>
         <div className="mt-3 px-2 space-y-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-          <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Sign out</a>
+          <button onClick={props.signOut} className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Sign out</button>
         </div>
       </div>
     </div>
@@ -26,8 +25,8 @@ const MobileProfileNav = (props) => {
 };
 
 MobileProfileNav.propTypes = {
-  isAuthed: PropTypes.bool.isRequired,
-  user: UserType
+  user: UserType,
+  signOut: PropTypes.func.isRequired
 }
 
 export default MobileProfileNav;

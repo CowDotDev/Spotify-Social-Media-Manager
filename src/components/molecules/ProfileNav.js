@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Transition from '../utils/Transitions';
+import Transitions from '../utils/Transitions';
 
 import UserType from '../../types/UserType';
 
@@ -14,7 +14,7 @@ const ProfileNav = (props) => (
         </button>
       </div>
       {/* Profile Dropdown Nav */}
-      <Transition
+      <Transitions
         show={props.isNavOpen}
         enter="transition ease-out duration-100"
         enterFrom="transform opacity-0 scale-95"
@@ -24,12 +24,12 @@ const ProfileNav = (props) => (
         leaveTo="transform opacity-0 scale-95"
       >
         <div className="origin-top-right absolute right-0 mt-2 max-w-5xl rounded-md shadow-lg">
-          <div className="rounded-md bg-white shadow-xs overflow-hidden text-right">
-            <p className="block px-4 py-2 text-sm text-white font-semibold bg-indigo-500 whitespace-no-wrap">Welcome, {props.user.displayName}!</p>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+          <div className="rounded-md bg-white shadow-xs overflow-hidden">
+            <p className="block px-4 py-2 text-sm text-white text-right font-semibold bg-indigo-500 whitespace-no-wrap">Welcome, {props.user.displayName}!</p>
+            <button onClick={props.signOut} className="block w-full px-4 py-2 text-sm text-gray-700 text-right hover:bg-gray-100">Sign out</button>
           </div>
         </div>
-      </Transition>
+      </Transitions>
     </div>
   </div>
 );
@@ -38,7 +38,8 @@ ProfileNav.propTypes = {
   isNavOpen: PropTypes.bool.isRequired,
   openNav: PropTypes.func.isRequired,
   closeNav: PropTypes.func.isRequired,
-  user: UserType
+  user: UserType,
+  signOut: PropTypes.func.isRequired
 };
 
 export default ProfileNav;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import UserType from '../../types/UserType';
 
-import Transition from '../utils/Transitions';
+import Transitions from '../utils/Transitions';
 import ProfileNav from '../molecules/ProfileNav';
 import MobileMenuIcon from '../atoms/MobileMenuIcon';
 import MobileProfileNav from '../molecules/MobileProfileNav';
@@ -15,7 +15,8 @@ class TopNav extends React.Component {
 
   static propTypes = {
     isAuthed: PropTypes.bool.isRequired,
-    user: UserType
+    user: UserType,
+    signOut: PropTypes.func.isRequired
   }
 
   openNav = () => {
@@ -32,6 +33,39 @@ class TopNav extends React.Component {
     }
   }
 
+  renderProfileNav = () => {
+    if (!this.props.isAuthed) return null;
+    return (
+      <ProfileNav
+        isNavOpen={this.state.isNavOpen}
+        openNav={this.openNav}
+        closeNav={this.closeNav}
+        user={this.props.user}
+        signOut={() => this.props.signOut(this.closeNav)}
+      />
+    );
+  };
+  renderMobileMenuIcon = () => {
+    if (!this.props.isAuthed) return null;
+    return <MobileMenuIcon isNavOpen={this.state.isNavOpen} openNav={this.openNav} closeNav={this.closeNav} />
+  };
+  renderMobileProfileNav = () => {
+    if (!this.props.isAuthed) return null;
+    return (
+      <Transitions
+        show={this.props.isAuthed && this.state.isNavOpen}
+        enter="transition-all ease-out duration-300"
+        enterFrom="opacity-0 max-h-0"
+        enterTo="opacity-100 max-h-40"
+        leave="transition-all ease-in duration-200"
+        leaveFrom="opacity-100 max-h-40"
+        leaveTo="opacity-0 max-h-0"
+      >
+        <MobileProfileNav user={this.props.user} signOut={() => this.props.signOut(this.closeNav)} />
+      </Transitions>
+    );
+  };
+
   render() {
     return (
       <nav className="bg-gray-800">
@@ -47,41 +81,16 @@ class TopNav extends React.Component {
               </div>
               {/* Right Profile Section */}
               <div className="hidden md:block">
-                <Transition
-                  show={this.props.isAuthed}
-                  enter="transition ease-out duration-1000"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="transition ease-in duration-1000"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <ProfileNav
-                    isNavOpen={this.state.isNavOpen}
-                    openNav={this.openNav}
-                    closeNav={this.closeNav}
-                    user={this.props.user}
-                  />
-                </Transition>
+                { this.renderProfileNav() }
               </div>
               {/* <!-- Mobile menu button --> */}
-              <MobileMenuIcon isAuthed={this.props.isAuthed} isNavOpen={this.state.isNavOpen} openNav={this.openNav} closeNav={this.closeNav} />
+              { this.renderMobileMenuIcon() }
             </div>
           </div>
         </div>
 
         {/* <!-- Mobile Slide Nav--> */}
-        <Transition
-          show={this.props.isAuthed && this.state.isNavOpen}
-          enter="transition-all ease-out duration-300"
-          enterFrom="opacity-0 max-h-0"
-          enterTo="opacity-100 max-h-40"
-          leave="transition-all ease-in duration-200"
-          leaveFrom="opacity-100 max-h-40"
-          leaveTo="opacity-0 max-h-0"
-        >
-          <MobileProfileNav isAuthed={this.props.isAuthed} user={this.props.user} />
-        </Transition>
+        { this.renderMobileProfileNav() }
       </nav>
     );
   };
