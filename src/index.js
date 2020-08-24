@@ -8,8 +8,6 @@ import './css/main.css';
 import App from './App';
 
 render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />,
   document.getElementById('root')
 );
